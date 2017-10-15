@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var config = require('../config');
 var router = express.Router();
 let emailHandler = require('../lib/emailHandler');
+let jwt = require('jsonwebtoken');
 
 let pool = mysql.createPool({
   connectionLimit : 100, //important
@@ -27,7 +28,8 @@ POST / localhost:3000/api/mail/all
 
 router.head('/auth', (req, res) => {
   res.send();
-  console.log('auth');
+
+  console.log('auth' + req.env);
   return ;
 
   emailHandler.sendAuthMail(req, res);
