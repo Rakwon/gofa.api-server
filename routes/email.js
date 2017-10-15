@@ -5,8 +5,8 @@ var router = express.Router();
 let emailHandler = require('../lib/emailHandler');
 let jwt = require('jsonwebtoken');
 
-let pool = mysql.createPool({
-  connectionLimit : 100, //important
+let connection = mysql.createPool({
+  //connectionLimit : 100, //important
   host: config.RDS.HOSTNAME,
   user: config.RDS.USERNAME,
   password: config.RDS.PASSWORD,
@@ -14,7 +14,7 @@ let pool = mysql.createPool({
 
 });
 
-emailHandler.init(pool);
+emailHandler.init(connection);
 //API LIST
 /*
 
@@ -26,35 +26,40 @@ HEAD / localhost:3000/api/mail/reply?id=1
 POST / localhost:3000/api/mail/all
 */
 
-router.head('/auth', (req, res) => {
+let getToken = function(){
+  return jwt.sign({"result" : 'ok'}, config.MAIL_KEY ,{ algorithm: 'HS256' });
+};
+let sendRespones = function(res){
+  res.setHeader('Authorization', getToken());
   res.send();
+};
+
+router.head('/auth', (req, res) => {
+  sendRespones(res);
   console.log('auth');
 
   emailHandler.sendAuthMail(req, res);
 });
 router.head('/project', (req, res) => {
-  res.send();
+  sendRespones(res);
   console.log('project');
   
   emailHandler.sendNotiMail(req, res, 'Project');
 });
 router.head('/profile', (req, res) => {
-  res.send();
-  
+  sendRespones(res);  
   console.log('profile');
   
   emailHandler.sendNotiMail(req, res, 'Profile');
 });
 router.head('/feed', (req, res) => {
-  res.send();
-  
+  sendRespones(res);  
   console.log('feed');
   
   emailHandler.sendNotiMail(req, res, 'Feed');
 });
 router.head('/reply', (req, res) => {
-  res.send();
-  
+  sendRespones(res);  
   console.log('reply');
   
   emailHandler.sendNotiMail(req, res, 'Reply');
