@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 var config = require('./config');
 var auth = require('./lib/auth');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
 var mail = require('./routes/email');
 var app = express();
 
@@ -25,8 +23,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(auth.authToken);
-app.use('/', index);
-app.use('/users', users);
 app.use('/api/mail', mail);
 
 // catch 404 and forward to error handler

@@ -28,37 +28,34 @@ POST / localhost:3000/api/mail/all
 
 router.head('/auth', (req, res) => {
   res.send();
-
-  console.log('auth' + req.env);
-  return ;
+  console.log('auth');
 
   emailHandler.sendAuthMail(req, res);
 });
 router.head('/project', (req, res) => {
   res.send();
   console.log('project');
-  return ;
   
   emailHandler.sendNotiMail(req, res, 'Project');
 });
 router.head('/profile', (req, res) => {
   res.send();
+  
   console.log('profile');
-  return ;
   
   emailHandler.sendNotiMail(req, res, 'Profile');
 });
 router.head('/feed', (req, res) => {
   res.send();
+  
   console.log('feed');
-  return ;
   
   emailHandler.sendNotiMail(req, res, 'Feed');
 });
 router.head('/reply', (req, res) => {
   res.send();
+  
   console.log('reply');
-  return ;
   
   emailHandler.sendNotiMail(req, res, 'Reply');
 });
